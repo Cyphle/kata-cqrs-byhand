@@ -1,11 +1,10 @@
 package fr.cqrsbyhand.acceptance;
 
 import fr.cqrsbyhand.command.bus.CommandBus;
-import fr.cqrsbyhand.command.CommandResult;
-import fr.cqrsbyhand.command.bus.EventBus;
+import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
-import fr.cqrsbyhand.command.events.AccountCreatedEvent;
-import fr.cqrsbyhand.domain.commandhandlers.AccountCreationCommandHandler;
+import fr.cqrsbyhand.event.events.AccountCreatedEvent;
+import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
 import fr.cqrsbyhand.query.models.AccountView;
 import fr.cqrsbyhand.query.services.AccountQueryService;
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package fr.cqrsbyhand.domain.commandhandlers;
+package fr.cqrsbyhand.command.handlers;
 
 import fr.cqrsbyhand.command.commands.Command;
 import lombok.EqualsAndHashCode;
@@ -7,6 +7,10 @@ import lombok.EqualsAndHashCode;
 public class AccountCreationCommandHandler extends CommandHandler {
   @Override
   public void handle(Command command) {
-
+    /*
+    - Get all account aggregate (from event store)
+    - Check name is not used (send result to denormalizer)
+    - Send event account created to eventBus
+     */
   }
 }

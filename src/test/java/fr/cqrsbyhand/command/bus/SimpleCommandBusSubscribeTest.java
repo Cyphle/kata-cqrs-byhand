@@ -1,7 +1,7 @@
 package fr.cqrsbyhand.command.bus;
 
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
-import fr.cqrsbyhand.domain.commandhandlers.AccountCreationCommandHandler;
+import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
 import org.junit.Test;
 
 import java.util.HashMap;

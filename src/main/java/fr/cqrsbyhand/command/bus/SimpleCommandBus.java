@@ -1,7 +1,7 @@
 package fr.cqrsbyhand.command.bus;
 
 import fr.cqrsbyhand.command.commands.Command;
-import fr.cqrsbyhand.domain.commandhandlers.CommandHandler;
+import fr.cqrsbyhand.command.handlers.CommandHandler;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package fr.cqrsbyhand.domain.commandhandlers;
+package fr.cqrsbyhand.command.handlers;
 
 import fr.cqrsbyhand.command.commands.Command;
 
