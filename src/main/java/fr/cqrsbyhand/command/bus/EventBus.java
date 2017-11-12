@@ -1,4 +1,4 @@
-package fr.cqrsbyhand.command;
+package fr.cqrsbyhand.command.bus;
 
 import fr.cqrsbyhand.command.events.AccountCreatedEvent;
 import fr.cqrsbyhand.command.events.Event;
