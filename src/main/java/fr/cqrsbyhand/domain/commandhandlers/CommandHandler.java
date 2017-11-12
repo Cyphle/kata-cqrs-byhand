@@ -1,4 +1,7 @@
 package fr.cqrsbyhand.domain.commandhandlers;
 
-public class CommandHandler {
+import fr.cqrsbyhand.command.commands.Command;
+
+public abstract class CommandHandler {
+  public abstract void handle(Command command);
 }

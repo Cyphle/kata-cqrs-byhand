@@ -1,6 +1,5 @@
 package fr.cqrsbyhand.command.bus;
 
-import fr.cqrsbyhand.command.CommandResult;
 import fr.cqrsbyhand.command.commands.Command;
 import fr.cqrsbyhand.domain.commandhandlers.CommandHandler;
 
@@ -27,7 +26,8 @@ public enum SimpleCommandBus implements CommandBus {
   }
 
   @Override
-  public CommandResult send(Command command) {
-    return null;
+  public void send(Command command) {
+    CommandHandler handler = subscribers.get(command.getClass());
+    handler.handle(command);
   }
 }

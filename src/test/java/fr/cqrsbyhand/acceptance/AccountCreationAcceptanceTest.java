@@ -40,8 +40,8 @@ public class AccountCreationAcceptanceTest {
     String accountId = "abcuid";
     AccountCreatedEvent accountCreatedEvent = new AccountCreatedEvent(accountId, "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 12, 10, 1, 10));
     // When
-    CommandResult result = commandBus.send(command);
-    AccountView account = accountService.getAccount((String) result.getPayload());
+    commandBus.send(command);
+    AccountView account = accountService.getAccountByName("My super account");
     // Then
     AccountView expectedAccount = new AccountView();
     expectedAccount.setId("abcuid");
