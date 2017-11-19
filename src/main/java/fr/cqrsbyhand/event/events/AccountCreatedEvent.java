@@ -12,6 +12,11 @@ public class AccountCreatedEvent implements Event {
   private String accountName;
   private LocalDateTime eventDate;
 
+  public AccountCreatedEvent(String accountId, String accountName) {
+    this.accountId = accountId;
+    this.accountName = accountName;
+  }
+
   public AccountCreatedEvent(String accountId, String accountName, LocalDateTime eventDate) {
     this.accountId = accountId;
     this.accountName = accountName;

@@ -10,6 +10,8 @@ import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.exceptions.AccountCreationError;
 import fr.cqrsbyhand.exceptions.CommandException;
+import fr.cqrsbyhand.utils.IdGenerator;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountCreationCommandHandlerTest {
@@ -32,12 +35,19 @@ public class AccountCreationCommandHandlerTest {
   private EventStore eventStore;
   @Mock
   private Denormalizer denormalizer;
+  @Mock
+  private IdGenerator idGenerator;
+  private AccountCreationCommandHandler accountCreationHandler;
+
+  @Before
+  public void setUp() throws Exception {
+    accountCreationHandler = new AccountCreationCommandHandler(eventBus, eventStore, denormalizer, idGenerator);
+  }
 
   @Test
   public void should_throw_command_exception_if_account_name_already_exists() throws Exception {
     // Given
     Command accountCreationCommand = new AccountCreationCommand("My super account");
-    CommandHandler accountCreationHandler = new AccountCreationCommandHandler(eventBus, eventStore, denormalizer);
 
     given(eventStore.getAllEventsByType(EventType.ACCOUNT_CREATION)).willReturn(Collections.singletonList(new AccountCreatedEvent("a", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0))));
     Map<String, Account> accounts = new HashMap<>();
@@ -52,5 +62,16 @@ public class AccountCreationCommandHandlerTest {
       // Then
       assertThat((AccountCreationError) ex.getError()).isEqualTo(new AccountCreationError("Account already exists", "My super account"));
     }
+  }
+
+  @Test
+  public void should_create_an_account() throws Exception {
+    // Given
+    Command accountCreationCommand = new AccountCreationCommand("My super account");
+    given(idGenerator.generateUuid()).willReturn("abc");
+    // When
+    accountCreationHandler.handle(accountCreationCommand);
+    // Then
+    verify(eventBus).apply(new AccountCreatedEvent("abc", "My super account"));
   }
 }

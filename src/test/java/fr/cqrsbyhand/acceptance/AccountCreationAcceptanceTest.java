@@ -1,6 +1,8 @@
 package fr.cqrsbyhand.acceptance;
 
 import fr.cqrsbyhand.command.bus.CommandBus;
+import fr.cqrsbyhand.command.bus.SimpleCommandBus;
+import fr.cqrsbyhand.config.ApplicationConfig;
 import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
@@ -24,12 +26,13 @@ public class AccountCreationAcceptanceTest {
   private CommandBus commandBus;
   private AccountCreationCommandHandler accountCreationCommandHandler;
   private EventBus eventBus;
+  private ApplicationConfig applicationConfig;
 
   @Before
   public void setUp() throws Exception {
-//    cqrsbyhandApplicationConfig.initialize();
-//
-//    commandBus = SimpleCommandBus.getInstance();
+    commandBus = SimpleCommandBus.BUS;
+    applicationConfig = new ApplicationConfig();
+    applicationConfig.initialize();
   }
 
   @Test
