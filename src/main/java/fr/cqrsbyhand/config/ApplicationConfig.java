@@ -9,13 +9,12 @@ import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
+import fr.cqrsbyhand.mocks.MockEventRepository;
 import fr.cqrsbyhand.utils.AccountIdGenerator;
 import fr.cqrsbyhand.utils.Clock;
 
 public enum ApplicationConfig {
   CONFIG;
-
-  private EventBus eventBus;
 
   public void initialize() {
     initializeEventBus();
@@ -23,23 +22,26 @@ public enum ApplicationConfig {
     registerEventHandlers();
   }
 
+  public void initializeEventStore() {
+    MonoRepoEventStore.initialize(new MockEventRepository());
+  }
+
   public void initializeEventBus() {
-    SimpleEventBus.initializeBus(MonoRepoEventStore.STORE, new Clock());
-    eventBus = SimpleEventBus.BUS();
+    SimpleEventBus.initialize(MonoRepoEventStore.STORE(), new Clock());
   }
 
   private void registerCommandHandlers() {
     SimpleCommandBus.BUS.subscribe(
             AccountCreationCommand.class,
             new AccountCreationCommandHandler(
-                    eventBus,
-                    MonoRepoEventStore.STORE,
+                    SimpleEventBus.BUS(),
+                    MonoRepoEventStore.STORE(),
                     new AccountDenormalizer(),
                     new AccountIdGenerator()
             ));
   }
 
   private void registerEventHandlers() {
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler());
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler());
   }
 }

@@ -29,6 +29,7 @@ public class SimpleCommandBusSubscribeTest {
   @Before
   public void setUp() throws Exception {
     ApplicationConfig.CONFIG.initializeEventBus();
+    ApplicationConfig.CONFIG.initializeEventStore();
   }
 
   @Test
@@ -36,10 +37,10 @@ public class SimpleCommandBusSubscribeTest {
     // Given
     CommandBus commandBus = SimpleCommandBus.BUS;
     // When
-    commandBus.subscribe(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE, denormalizer, idGenerator));
+    commandBus.subscribe(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE(), denormalizer, idGenerator));
     // Then
     Map<Class<AccountCreationCommand>, AccountCreationCommandHandler> subscribers = new HashMap<>();
-    subscribers.put(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE, denormalizer, idGenerator));
+    subscribers.put(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE(), denormalizer, idGenerator));
     assertThat(commandBus.getSubscribers()).isEqualTo(subscribers);
   }
 }

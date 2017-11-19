@@ -25,14 +25,14 @@ public class SimpleEventBus implements EventBus {
   }
 
   public static EventBus BUS() {
+    if (instance == null)
+      throw new IllegalStateException("Event bus has to be initialized before being used");
     return instance;
   }
 
-  public static void initializeBus(EventStore eventStore, DateService dateService) {
-    if (instance == null)
-      instance = new SimpleEventBus(eventStore, dateService);
-    else
-      instance.getSubscribers().clear();
+  public static void initialize(EventStore eventStore, DateService dateService) {
+    instance = new SimpleEventBus(eventStore, dateService);
+    instance.getSubscribers().clear();
   }
 
   @Override
@@ -62,8 +62,8 @@ public class SimpleEventBus implements EventBus {
     event.setEventDate(dateService.now());
     eventStore.save(event);
     subscribers.forEach(subscriber -> {
-              if (subscriber.getEventClass().equals(event.getClass()))
-                subscriber.apply(event);
-            });
+      if (subscriber.getEventClass().equals(event.getClass()))
+        subscriber.apply(event);
+    });
   }
 }

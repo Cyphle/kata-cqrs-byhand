@@ -16,19 +16,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleEventBusTest {
-  private EventBus eventBus;
-
   @Before
   public void setUp() throws Exception {
+    ApplicationConfig.CONFIG.initializeEventStore();
     ApplicationConfig.CONFIG.initializeEventBus();
-    eventBus = SimpleEventBus.BUS();
-    MonoRepoEventStore.STORE.clearEvents();
+    ((MonoRepoEventStore) MonoRepoEventStore.STORE()).clearEvents();
   }
 
   @Test
   public void should_store_event_in_event_store() throws Exception {
-    eventBus.apply(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abc", "My account"));
+    SimpleEventBus.BUS().apply(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abc", "My account"));
 
-    assertThat(MonoRepoEventStore.STORE.getAllEvents()).containsExactly(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abc", "My account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 17, 0)));
+    assertThat(MonoRepoEventStore.STORE().getAllEvents()).containsExactly(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abc", "My account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 17, 0)));
   }
 }

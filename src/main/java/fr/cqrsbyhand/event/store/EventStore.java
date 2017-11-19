@@ -1,6 +1,5 @@
 package fr.cqrsbyhand.event.store;
 
-import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.events.Event;
 import fr.cqrsbyhand.event.events.EventType;
 
@@ -10,4 +9,6 @@ public interface EventStore {
   List<Event> getAllEventsByType(EventType eventType);
 
   void save(Event event);
+
+  List<Event> getAllEvents();
 }

@@ -3,36 +3,45 @@ package fr.cqrsbyhand.event.store;
 import fr.cqrsbyhand.event.events.Event;
 import fr.cqrsbyhand.event.events.EventType;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum MonoRepoEventStore implements EventStore {
-  STORE;
+public class MonoRepoEventStore implements EventStore {
+  private static EventStore instance;
+  private EventRepository eventRepository;
 
-  private List<Event> events;
+  private MonoRepoEventStore(EventRepository eventRepository) {
+    this.eventRepository = eventRepository;
+  }
 
-  MonoRepoEventStore() {
-    this.events = new ArrayList<>();
+  public static EventStore STORE() {
+    return instance;
+  }
+
+  public static void initialize(EventRepository eventRepository) {
+    instance = new MonoRepoEventStore(eventRepository);
   }
 
   @Override
   public List<Event> getAllEventsByType(EventType eventType) {
-    return events.stream()
+    return eventRepository
+            .getEvents()
+            .stream()
             .filter(event -> event.getEventType().equals(eventType))
             .collect(Collectors.toList());
   }
 
   @Override
   public void save(Event event) {
-    events.add(event);
+    eventRepository.save(event);
   }
 
+  @Override
   public List<Event> getAllEvents() {
-    return events;
+    return eventRepository.getEvents();
   }
 
   public void clearEvents() {
-    events.clear();
+    eventRepository.clearEvents();
   }
 }
