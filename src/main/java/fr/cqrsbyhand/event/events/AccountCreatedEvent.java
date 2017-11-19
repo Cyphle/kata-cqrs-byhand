@@ -8,16 +8,19 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class AccountCreatedEvent implements Event {
+  private EventType type;
   private String accountId;
   private String accountName;
   private LocalDateTime eventDate;
 
-  public AccountCreatedEvent(String accountId, String accountName) {
+  public AccountCreatedEvent(EventType type, String accountId, String accountName) {
+    this.type = type;
     this.accountId = accountId;
     this.accountName = accountName;
   }
 
-  public AccountCreatedEvent(String accountId, String accountName, LocalDateTime eventDate) {
+  public AccountCreatedEvent(EventType type, String accountId, String accountName, LocalDateTime eventDate) {
+    this.type = type;
     this.accountId = accountId;
     this.accountName = accountName;
     this.eventDate = eventDate;
@@ -41,5 +44,10 @@ public class AccountCreatedEvent implements Event {
   @Override
   public LocalDateTime getEventDate() {
     return eventDate;
+  }
+
+  @Override
+  public EventType getEventType() {
+    return type;
   }
 }

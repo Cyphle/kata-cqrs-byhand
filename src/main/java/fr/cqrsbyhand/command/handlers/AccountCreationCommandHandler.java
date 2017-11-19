@@ -32,7 +32,7 @@ public class AccountCreationCommandHandler extends CommandHandler {
   public void handle(Command command) throws CommandException {
     Map<String, Account> accounts = getAllAccountsProjection();
     verifyAccountNotAlreadyExists(command, accounts);
-    eventBus.apply(new AccountCreatedEvent(idGenerator.generateUuid(), ((AccountCreationCommand) command).getAccountName()));
+    eventBus.apply(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, idGenerator.generateUuid(), ((AccountCreationCommand) command).getAccountName()));
   }
 
   private void verifyAccountNotAlreadyExists(Command command, Map<String, Account> accounts) throws CommandException {

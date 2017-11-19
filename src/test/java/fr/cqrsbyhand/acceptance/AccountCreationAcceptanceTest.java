@@ -7,6 +7,7 @@ import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
+import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.query.models.AccountView;
 import fr.cqrsbyhand.query.services.AccountQueryService;
 import org.junit.Before;
@@ -40,7 +41,7 @@ public class AccountCreationAcceptanceTest {
     // Given
     AccountCreationCommand command = new AccountCreationCommand("My super account");
     String accountId = "abcuid";
-    AccountCreatedEvent accountCreatedEvent = new AccountCreatedEvent(accountId, "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 12, 10, 1, 10));
+    AccountCreatedEvent accountCreatedEvent = new AccountCreatedEvent(EventType.ACCOUNT_CREATION, accountId, "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 12, 10, 1, 10));
     // When
     commandBus.send(command);
     AccountView account = accountService.getAccountByName("My super account");

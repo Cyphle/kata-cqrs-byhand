@@ -10,4 +10,6 @@ public interface Event {
   int getAmount();
 
   LocalDateTime getEventDate();
+
+  EventType getEventType();
 }

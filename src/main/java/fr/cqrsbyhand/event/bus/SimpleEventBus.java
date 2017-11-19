@@ -40,6 +40,9 @@ public enum SimpleEventBus implements EventBus {
 
   @Override
   public void apply(Event event) {
+    /*
+    Update event with current date
+     */
     throw new UnsupportedOperationException();
   }
 }

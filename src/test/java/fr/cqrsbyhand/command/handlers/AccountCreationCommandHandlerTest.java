@@ -49,7 +49,7 @@ public class AccountCreationCommandHandlerTest {
     // Given
     Command accountCreationCommand = new AccountCreationCommand("My super account");
 
-    given(eventStore.getAllEventsByType(EventType.ACCOUNT_CREATION)).willReturn(Collections.singletonList(new AccountCreatedEvent("a", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0))));
+    given(eventStore.getAllEventsByType(EventType.ACCOUNT_CREATION)).willReturn(Collections.singletonList(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "a", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0))));
     Map<String, Account> accounts = new HashMap<>();
     accounts.put("a", new Account("a", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0), LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0), "My super account", 0));
     given(denormalizer.project(any(List.class))).willReturn(accounts);
@@ -72,6 +72,6 @@ public class AccountCreationCommandHandlerTest {
     // When
     accountCreationHandler.handle(accountCreationCommand);
     // Then
-    verify(eventBus).apply(new AccountCreatedEvent("abc", "My super account"));
+    verify(eventBus).apply(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abc", "My super account"));
   }
 }

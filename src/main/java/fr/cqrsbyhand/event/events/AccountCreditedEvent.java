@@ -8,11 +8,13 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class AccountCreditedEvent implements Event {
+  private EventType type;
   private String accountId;
   private int amount;
   private LocalDateTime eventDate;
 
-  public AccountCreditedEvent(String accountId, int amount, LocalDateTime eventDate) {
+  public AccountCreditedEvent(EventType type, String accountId, int amount, LocalDateTime eventDate) {
+    this.type = type;
     this.accountId = accountId;
     this.amount = amount;
     this.eventDate = eventDate;
@@ -36,5 +38,10 @@ public class AccountCreditedEvent implements Event {
   @Override
   public LocalDateTime getEventDate() {
     return eventDate;
+  }
+
+  @Override
+  public EventType getEventType() {
+    return type;
   }
 }
