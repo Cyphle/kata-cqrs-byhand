@@ -35,7 +35,7 @@ public class AccountDenormalizerTest {
             new AccountCreditedEvent("a", 100, LocalDateTime.of(2017, Month.NOVEMBER, 15, 11, 20)),
             new AccountCreditedEvent("a", 300, LocalDateTime.of(2017, Month.NOVEMBER, 16, 12, 20)),
             new AccountDebitedEvent("a", 50, LocalDateTime.of(2017, Month.NOVEMBER, 17, 15, 18)),
-            new AccountDebitedEvent("a", 50, LocalDateTime.of(2017, Month.NOVEMBER, 16, 8, 18)),
+            new AccountDebitedEvent("a", 150, LocalDateTime.of(2017, Month.NOVEMBER, 16, 8, 18)),
             new AccountCreditedEvent("a", 300, LocalDateTime.of(2017, Month.NOVEMBER, 16, 18, 20))
     );
 

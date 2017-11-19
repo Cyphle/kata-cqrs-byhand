@@ -31,13 +31,9 @@ public class AccountCreationCommandHandler extends CommandHandler {
   public void handle(Command command) throws CommandException {
     Map<String, Account> accounts = getAllAccountsProjection();
 
-    boolean doesAccountAlreadyExists = accounts.values()
-            .stream()
-            .anyMatch(account -> account.hasName(((AccountCreationCommand) command).getAccountName()));
+    verifyAccountNotAlreadyExists(command, accounts);
 
-    if (doesAccountAlreadyExists) {
-      throw new CommandException(new AccountCreationError("Account already exists", "My super account"));
-    }
+
 
 //    if (accounts.containsKey(command.getAccountId())) {
 //
@@ -49,6 +45,15 @@ public class AccountCreationCommandHandler extends CommandHandler {
     - Check name is not used (send result to denormalizer)
     - Send event account created to eventBus
      */
+  }
+
+  private void verifyAccountNotAlreadyExists(Command command, Map<String, Account> accounts) throws CommandException {
+    boolean doesAccountAlreadyExists = accounts.values()
+            .stream()
+            .anyMatch(account -> account.hasName(((AccountCreationCommand) command).getAccountName()));
+
+    if (doesAccountAlreadyExists)
+      throw new CommandException(new AccountCreationError("Account already exists", "My super account"));
   }
 
   private Map<String, Account> getAllAccountsProjection() {
