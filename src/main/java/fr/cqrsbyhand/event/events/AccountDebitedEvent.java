@@ -44,4 +44,9 @@ public class AccountDebitedEvent implements Event {
   public EventType getEventType() {
     return type;
   }
+
+  @Override
+  public void setEventDate(LocalDateTime newEventDate) {
+    eventDate = newEventDate;
+  }
 }

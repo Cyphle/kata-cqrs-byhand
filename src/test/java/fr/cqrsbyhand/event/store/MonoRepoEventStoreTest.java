@@ -1,6 +1,7 @@
 package fr.cqrsbyhand.event.store;
 
 import fr.cqrsbyhand.event.events.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MonoRepoEventStoreTest {
+  @Before
+  public void setUp() throws Exception {
+    MonoRepoEventStore.STORE.clearEvents();
+  }
+
   @Test
   public void should_return_events_of_a_given_type() throws Exception {
     EventStore eventStore = MonoRepoEventStore.STORE;

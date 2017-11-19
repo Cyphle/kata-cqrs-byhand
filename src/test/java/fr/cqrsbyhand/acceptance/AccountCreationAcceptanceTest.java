@@ -9,7 +9,8 @@ import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
 import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.query.models.AccountView;
-import fr.cqrsbyhand.query.services.AccountQueryService;
+import fr.cqrsbyhand.query.services.AccountQuery;
+import fr.cqrsbyhand.query.services.AccountReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountCreationAcceptanceTest {
-  private AccountQueryService accountService;
+  private AccountQuery accountReader;
   private CommandBus commandBus;
   private AccountCreationCommandHandler accountCreationCommandHandler;
   private EventBus eventBus;
@@ -32,8 +33,9 @@ public class AccountCreationAcceptanceTest {
   @Before
   public void setUp() throws Exception {
     commandBus = SimpleCommandBus.BUS;
-    applicationConfig = new ApplicationConfig();
-    applicationConfig.initialize();
+    ApplicationConfig.CONFIG.initialize();
+
+    accountReader = new AccountReader();
   }
 
   @Test
@@ -44,7 +46,7 @@ public class AccountCreationAcceptanceTest {
     AccountCreatedEvent accountCreatedEvent = new AccountCreatedEvent(EventType.ACCOUNT_CREATION, accountId, "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 12, 10, 1, 10));
     // When
     commandBus.send(command);
-    AccountView account = accountService.getAccountByName("My super account");
+    AccountView account = accountReader.getAccountByName("My super account");
     // Then
     AccountView expectedAccount = new AccountView();
     expectedAccount.setId("abcuid");

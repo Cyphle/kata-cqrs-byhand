@@ -27,4 +27,12 @@ public enum MonoRepoEventStore implements EventStore {
   public void save(Event event) {
     events.add(event);
   }
+
+  public List<Event> getAllEvents() {
+    return events;
+  }
+
+  public void clearEvents() {
+    events.clear();
+  }
 }

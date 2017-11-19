@@ -12,4 +12,6 @@ public interface Event {
   LocalDateTime getEventDate();
 
   EventType getEventType();
+
+  void setEventDate(LocalDateTime newEventDate);
 }

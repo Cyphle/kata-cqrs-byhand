@@ -2,18 +2,37 @@ package fr.cqrsbyhand.event.bus;
 
 import fr.cqrsbyhand.event.events.Event;
 import fr.cqrsbyhand.event.handlers.EventHandler;
+import fr.cqrsbyhand.event.store.EventStore;
+import fr.cqrsbyhand.event.store.MonoRepoEventStore;
+import fr.cqrsbyhand.utils.Clock;
+import fr.cqrsbyhand.utils.DateService;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum SimpleEventBus implements EventBus {
-  BUS;
-
+public class SimpleEventBus implements EventBus {
+  private static EventBus instance;
   private final List<EventBusSubscriber> subscribers;
+  private EventStore eventStore;
+  private DateService dateService;
 
-  SimpleEventBus() {
+  private SimpleEventBus(EventStore eventStore, DateService dateService) {
+    this.eventStore = eventStore;
+    this.dateService = dateService;
     subscribers = new ArrayList<>();
+  }
+
+  public static EventBus BUS() {
+    return instance;
+  }
+
+  public static void initializeBus(EventStore eventStore, DateService dateService) {
+    if (instance == null)
+      instance = new SimpleEventBus(eventStore, dateService);
+    else
+      instance.getSubscribers().clear();
   }
 
   @Override
@@ -40,9 +59,11 @@ public enum SimpleEventBus implements EventBus {
 
   @Override
   public void apply(Event event) {
-    /*
-    Update event with current date
-     */
-    throw new UnsupportedOperationException();
+    event.setEventDate(dateService.now());
+    eventStore.save(event);
+    subscribers.forEach(subscriber -> {
+              if (subscriber.getEventClass().equals(event.getClass()))
+                subscriber.apply(event);
+            });
   }
 }

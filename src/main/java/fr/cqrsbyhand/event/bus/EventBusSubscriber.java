@@ -17,4 +17,8 @@ public class EventBusSubscriber {
   public Class<? extends Event> getEventClass() {
     return eventClass;
   }
+
+  public void apply(Event event) {
+    this.eventHandler.handle(event);
+  }
 }

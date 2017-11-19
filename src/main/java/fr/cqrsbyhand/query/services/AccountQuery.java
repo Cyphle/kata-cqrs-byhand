@@ -2,6 +2,6 @@ package fr.cqrsbyhand.query.services;
 
 import fr.cqrsbyhand.query.models.AccountView;
 
-public interface AccountQueryService {
+public interface AccountQuery {
   AccountView getAccountByName(String accountName);
 }

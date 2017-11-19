@@ -2,11 +2,13 @@ package fr.cqrsbyhand.command.bus;
 
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
+import fr.cqrsbyhand.config.ApplicationConfig;
 import fr.cqrsbyhand.domain.denormalizers.Denormalizer;
 import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.utils.IdGenerator;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -24,15 +26,20 @@ public class SimpleCommandBusSubscribeTest {
   @Mock
   private IdGenerator idGenerator;
 
+  @Before
+  public void setUp() throws Exception {
+    ApplicationConfig.CONFIG.initializeEventBus();
+  }
+
   @Test
   public void should_subscribe_command_handler_to_bus() throws Exception {
     // Given
     CommandBus commandBus = SimpleCommandBus.BUS;
     // When
-    commandBus.subscribe(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS, MonoRepoEventStore.STORE, denormalizer, idGenerator));
+    commandBus.subscribe(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE, denormalizer, idGenerator));
     // Then
     Map<Class<AccountCreationCommand>, AccountCreationCommandHandler> subscribers = new HashMap<>();
-    subscribers.put(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS, MonoRepoEventStore.STORE, denormalizer, idGenerator));
+    subscribers.put(AccountCreationCommand.class, new AccountCreationCommandHandler(SimpleEventBus.BUS(), MonoRepoEventStore.STORE, denormalizer, idGenerator));
     assertThat(commandBus.getSubscribers()).isEqualTo(subscribers);
   }
 }
