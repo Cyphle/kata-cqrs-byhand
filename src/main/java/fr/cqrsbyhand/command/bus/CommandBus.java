@@ -6,7 +6,7 @@ import fr.cqrsbyhand.command.handlers.CommandHandler;
 import java.util.Map;
 
 public interface CommandBus {
-  void send(Command command);
+  void send(Command command) throws Exception;
 
   void subscribe(Class<? extends Command> command, CommandHandler commandHandler);
 

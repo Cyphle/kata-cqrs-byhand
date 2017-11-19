@@ -7,14 +7,14 @@ import java.time.LocalDateTime;
 
 @EqualsAndHashCode
 @ToString
-public class AccountCreatedEvent implements Event {
+public class AccountDebitedEvent implements Event {
   private String accountId;
-  private String accountName;
+  private int amount;
   private LocalDateTime eventDate;
 
-  public AccountCreatedEvent(String accountId, String accountName, LocalDateTime eventDate) {
+  public AccountDebitedEvent(String accountId, int amount, LocalDateTime eventDate) {
     this.accountId = accountId;
-    this.accountName = accountName;
+    this.amount = amount;
     this.eventDate = eventDate;
   }
 

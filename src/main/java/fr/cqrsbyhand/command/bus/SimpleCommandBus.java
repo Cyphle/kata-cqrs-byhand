@@ -26,7 +26,7 @@ public enum SimpleCommandBus implements CommandBus {
   }
 
   @Override
-  public void send(Command command) {
+  public void send(Command command) throws Exception {
     CommandHandler handler = subscribers.get(command.getClass());
     handler.handle(command);
   }
