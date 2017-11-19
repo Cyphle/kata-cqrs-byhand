@@ -24,6 +24,11 @@ public class AccountDebitedEvent implements Event {
   }
 
   @Override
+  public String getAccountName() {
+    return "";
+  }
+
+  @Override
   public int getAmount() {
     return amount;
   }

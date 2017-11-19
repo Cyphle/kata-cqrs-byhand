@@ -24,6 +24,11 @@ public class AccountCreatedEvent implements Event {
   }
 
   @Override
+  public String getAccountName() {
+    return accountName;
+  }
+
+  @Override
   public int getAmount() {
     return 0;
   }

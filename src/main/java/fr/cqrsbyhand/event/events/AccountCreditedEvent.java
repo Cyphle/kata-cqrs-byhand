@@ -24,6 +24,11 @@ public class AccountCreditedEvent implements Event {
   }
 
   @Override
+  public String getAccountName() {
+    return "";
+  }
+
+  @Override
   public int getAmount() {
     return amount;
   }

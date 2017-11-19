@@ -65,10 +65,11 @@ public class AccountDenormalizerTest {
     Map<String, Account> accounts = denormalizer.project(events);
 
     assertThat(accounts).hasSize(1);
-    assertThat(new ArrayList<Account>(accounts.values()).get(0)).isEqualTo(new Account(
+    assertThat(new ArrayList<>(accounts.values()).get(0)).isEqualTo(new Account(
             "a",
             LocalDateTime.of(2017, Month.NOVEMBER, 15, 10, 12),
             LocalDateTime.of(2017, Month.NOVEMBER, 17, 15, 18),
+            "My account",
             500
     ));
   }

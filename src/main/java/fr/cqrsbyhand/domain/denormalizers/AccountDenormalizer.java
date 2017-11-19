@@ -21,7 +21,7 @@ public class AccountDenormalizer implements Denormalizer<Account> {
         Transaction.applyOperation(event, accounts.get(event.getAccountId()));
         accounts.get(event.getAccountId()).updateLastUpdateDate(event.getEventDate());
       } else {
-        accounts.put(event.getAccountId(), new Account(event.getAccountId(), event.getEventDate(), event.getEventDate(), 0));
+        accounts.put(event.getAccountId(), new Account(event.getAccountId(), event.getEventDate(), event.getEventDate(), event.getAccountName(),0));
       }
     });
 
