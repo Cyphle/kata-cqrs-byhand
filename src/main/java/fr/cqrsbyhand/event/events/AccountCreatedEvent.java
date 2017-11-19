@@ -19,6 +19,16 @@ public class AccountCreatedEvent implements Event {
   }
 
   @Override
+  public String getAccountId() {
+    return accountId;
+  }
+
+  @Override
+  public int getAmount() {
+    return 0;
+  }
+
+  @Override
   public LocalDateTime getEventDate() {
     return eventDate;
   }

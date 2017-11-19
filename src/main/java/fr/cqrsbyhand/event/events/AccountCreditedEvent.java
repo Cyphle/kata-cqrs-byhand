@@ -19,6 +19,16 @@ public class AccountCreditedEvent implements Event {
   }
 
   @Override
+  public String getAccountId() {
+    return accountId;
+  }
+
+  @Override
+  public int getAmount() {
+    return amount;
+  }
+
+  @Override
   public LocalDateTime getEventDate() {
     return eventDate;
   }
