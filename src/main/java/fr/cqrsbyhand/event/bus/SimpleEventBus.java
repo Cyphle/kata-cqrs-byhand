@@ -60,7 +60,6 @@ public class SimpleEventBus implements EventBus {
   @Override
   public void apply(Event event) {
     event.setEventDate(dateService.now());
-    eventStore.save(event);
     subscribers.forEach(subscriber -> {
       if (subscriber.getEventClass().equals(event.getClass()))
         subscriber.apply(event);

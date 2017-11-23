@@ -1,6 +1,5 @@
 package fr.cqrsbyhand.event.handlers;
 
-import fr.cqrsbyhand.domain.aggregates.Account;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.events.Event;
 import fr.cqrsbyhand.event.events.EventType;
@@ -20,15 +19,15 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountCreatedEventHandlerTest {
+public class AccountCreatedEventHandlerForQueryTest {
   @Mock
   private Bank bank;
 
-  private AccountCreatedEventHandler accountCreatedEventHandler;
+  private AccountCreatedEventHandlerForQuery accountCreatedEventHandler;
 
   @Before
   public void setUp() throws Exception {
-    accountCreatedEventHandler = new AccountCreatedEventHandler(bank);
+    accountCreatedEventHandler = new AccountCreatedEventHandlerForQuery(bank);
   }
 
   @Test
