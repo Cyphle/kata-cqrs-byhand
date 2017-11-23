@@ -1,5 +1,6 @@
 package fr.cqrsbyhand.config;
 
+import fr.cqrsbyhand.command.bus.CommandBus;
 import fr.cqrsbyhand.command.bus.SimpleCommandBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
@@ -8,6 +9,7 @@ import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandlerForQuery;
+import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.mocks.MockAccountRepository;
 import fr.cqrsbyhand.mocks.MockEventRepository;
@@ -19,10 +21,6 @@ public enum ApplicationConfig {
   CONFIG;
 
   private static Bank bank;
-
-  public static Bank getBank() {
-    return bank;
-  }
 
   public void initialize() {
     initializeEventStore();
@@ -54,5 +52,17 @@ public enum ApplicationConfig {
     bank = new MockAccountRepository();
     SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(MonoRepoEventStore.STORE()));
     SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery(bank));
+  }
+
+  public static EventStore getEventStore() {
+    return MonoRepoEventStore.STORE();
+  }
+
+  public static Bank getBank() {
+    return bank;
+  }
+
+  public static CommandBus getCommandBus() {
+    return SimpleCommandBus.BUS;
   }
 }
