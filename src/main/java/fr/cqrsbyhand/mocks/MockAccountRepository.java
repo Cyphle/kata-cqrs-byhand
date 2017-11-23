@@ -9,7 +9,7 @@ import java.util.List;
 
 @EqualsAndHashCode
 public class MockAccountRepository implements Bank {
-  private List<AccountView> accounts;
+  private final List<AccountView> accounts;
 
   public MockAccountRepository() {
     accounts = new ArrayList<>();

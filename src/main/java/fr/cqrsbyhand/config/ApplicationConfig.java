@@ -34,7 +34,7 @@ public enum ApplicationConfig {
   }
 
   public void initializeEventBus() {
-    SimpleEventBus.initialize(MonoRepoEventStore.STORE(), new Clock());
+    SimpleEventBus.initialize(new Clock());
   }
 
   private void registerCommandHandlers() {

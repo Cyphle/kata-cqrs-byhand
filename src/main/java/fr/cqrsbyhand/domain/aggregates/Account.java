@@ -8,10 +8,10 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class Account {
-  private String accountId;
-  private LocalDateTime creationDate;
+  private final String accountId;
+  private final LocalDateTime creationDate;
   private LocalDateTime lastUpdateDate;
-  private String accountName;
+  private final String accountName;
   private int balance;
 
   public Account(String accountId, LocalDateTime creationDate, LocalDateTime lastUpdateDate, String accountName, int balance) {

@@ -5,9 +5,9 @@ import fr.cqrsbyhand.event.handlers.EventHandler;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-public class EventBusSubscriber {
-  private Class<? extends Event> eventClass;
-  private EventHandler eventHandler;
+class EventBusSubscriber {
+  private final Class<? extends Event> eventClass;
+  private final EventHandler eventHandler;
 
   public EventBusSubscriber(Class<? extends Event> eventClass, EventHandler eventHandler) {
     this.eventClass = eventClass;

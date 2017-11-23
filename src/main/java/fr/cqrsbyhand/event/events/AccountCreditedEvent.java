@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @ToString
 public class AccountCreditedEvent implements Event {
-  private EventType type;
-  private String accountId;
-  private int amount;
+  private final EventType type;
+  private final String accountId;
+  private final int amount;
   private LocalDateTime eventDate;
 
   public AccountCreditedEvent(EventType type, String accountId, int amount, LocalDateTime eventDate) {

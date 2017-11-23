@@ -40,20 +40,19 @@ public class AccountDenormalizer implements Denormalizer<Account> {
     CREDIT(AccountCreditedEvent.class, Account::credit),
     DEBIT(AccountDebitedEvent.class, Account::debit);
 
-    public final Class EventClass;
-    public final BiFunction<Account, Integer, Account> operation;
+    final Class EventClass;
+    final BiFunction<Account, Integer, Account> operation;
 
     Transaction(Class eventClass, BiFunction<Account, Integer, Account> operation) {
       EventClass = eventClass;
       this.operation = operation;
     }
 
-    public static Account applyOperation(Event event, Account account) {
-      return Arrays.stream(Transaction.values())
+    static void applyOperation(Event event, Account account) {
+      Arrays.stream(Transaction.values())
               .filter(operation -> operation.EventClass.equals(event.getClass()))
               .findAny()
-              .map(operation -> operation.operation.apply(account, event.getAmount()))
-              .orElse(account);
+              .map(operation -> operation.operation.apply(account, event.getAmount()));
     }
   }
 }
