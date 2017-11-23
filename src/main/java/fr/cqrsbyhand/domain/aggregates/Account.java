@@ -37,4 +37,16 @@ public class Account {
   public boolean hasName(String nameToCompare) {
     return accountName.equals(nameToCompare);
   }
+
+  public String getAccountName() {
+    return accountName;
+  }
+
+  public String getAccountId() {
+    return accountId;
+  }
+
+  public int getBalance() {
+    return balance;
+  }
 }

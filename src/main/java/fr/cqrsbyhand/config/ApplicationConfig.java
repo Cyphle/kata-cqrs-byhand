@@ -17,6 +17,12 @@ import fr.cqrsbyhand.utils.Clock;
 public enum ApplicationConfig {
   CONFIG;
 
+  private static Bank bank;
+
+  public static Bank getBank() {
+    return bank;
+  }
+
   public void initialize() {
     initializeEventStore();
     initializeEventBus();
@@ -44,6 +50,7 @@ public enum ApplicationConfig {
   }
 
   private void registerEventHandlers() {
-    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(new MockAccountRepository()));
+    bank = new MockAccountRepository();
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
   }
 }

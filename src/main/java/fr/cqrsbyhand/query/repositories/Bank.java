@@ -1,7 +1,9 @@
 package fr.cqrsbyhand.query.repositories;
 
-import fr.cqrsbyhand.domain.aggregates.Account;
+import fr.cqrsbyhand.query.models.AccountView;
 
 public interface Bank {
-  void createAccount(Account account);
+  void createAccount(AccountView account);
+
+  AccountView findByName(String accountName);
 }
