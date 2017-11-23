@@ -7,6 +7,7 @@ import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
+import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandlerForQuery;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.mocks.MockAccountRepository;
 import fr.cqrsbyhand.mocks.MockEventRepository;
@@ -51,6 +52,7 @@ public enum ApplicationConfig {
 
   private void registerEventHandlers() {
     bank = new MockAccountRepository();
-    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(MonoRepoEventStore.STORE()));
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery(bank));
   }
 }

@@ -4,11 +4,13 @@ import fr.cqrsbyhand.domain.aggregates.Account;
 import fr.cqrsbyhand.event.events.AccountCreditedEvent;
 import fr.cqrsbyhand.event.events.AccountDebitedEvent;
 import fr.cqrsbyhand.event.events.Event;
+import lombok.EqualsAndHashCode;
 
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode
 public class AccountDenormalizer implements Denormalizer<Account> {
   @Override
   public Map<String, Account> project(List<Event> events) {

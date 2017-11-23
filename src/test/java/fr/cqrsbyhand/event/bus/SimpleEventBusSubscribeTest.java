@@ -33,9 +33,9 @@ public class SimpleEventBusSubscribeTest {
     // Given
     EventBus eventBus = SimpleEventBus.BUS();
     // When
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
+    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore));
     // Then
-    assertThat(eventBus.getSubscribers()).containsExactly(new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank)));
+    assertThat(eventBus.getSubscribers()).containsExactly(new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore)));
   }
 
   @Test
@@ -43,12 +43,12 @@ public class SimpleEventBusSubscribeTest {
     // Given
     EventBus eventBus = SimpleEventBus.BUS();
     // When
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery());
+    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore));
+    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery(bank));
     // Then
     assertThat(eventBus.getSubscribersOf(AccountCreatedEvent.class)).containsExactlyInAnyOrder(
-            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank)),
-            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery())
+            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore)),
+            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery(bank))
     );
   }
 }
