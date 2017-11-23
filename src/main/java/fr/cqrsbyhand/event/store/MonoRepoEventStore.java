@@ -41,6 +41,15 @@ public class MonoRepoEventStore implements EventStore {
     return eventRepository.getEvents();
   }
 
+  @Override
+  public List<Event> getEventsOf(String accountId) {
+    return eventRepository
+            .getEvents()
+            .stream()
+            .filter(event -> event.getAccountId().equals(accountId))
+            .collect(Collectors.toList());
+  }
+
   public void clearEvents() {
     eventRepository.clearEvents();
   }

@@ -4,7 +4,6 @@ import fr.cqrsbyhand.command.bus.SimpleCommandBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
 import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
-import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
@@ -17,6 +16,7 @@ public enum ApplicationConfig {
   CONFIG;
 
   public void initialize() {
+    initializeEventStore();
     initializeEventBus();
     registerCommandHandlers();
     registerEventHandlers();
@@ -42,6 +42,6 @@ public enum ApplicationConfig {
   }
 
   private void registerEventHandlers() {
-    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler());
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(MonoRepoEventStore.STORE()));
   }
 }

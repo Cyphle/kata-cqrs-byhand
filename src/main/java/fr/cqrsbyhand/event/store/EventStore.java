@@ -11,4 +11,6 @@ public interface EventStore {
   void save(Event event);
 
   List<Event> getAllEvents();
+
+  List<Event> getEventsOf(String accountId);
 }
