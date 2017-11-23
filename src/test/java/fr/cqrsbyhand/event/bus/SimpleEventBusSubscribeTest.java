@@ -5,6 +5,7 @@ import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandlerForQuery;
 import fr.cqrsbyhand.event.store.EventStore;
+import fr.cqrsbyhand.query.repositories.Bank;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,9 @@ public class SimpleEventBusSubscribeTest {
   @Mock
   EventStore eventStore;
 
+  @Mock
+  Bank bank;
+
   @Before
   public void setUp() throws Exception {
     ApplicationConfig.CONFIG.initializeEventBus();
@@ -29,9 +33,9 @@ public class SimpleEventBusSubscribeTest {
     // Given
     EventBus eventBus = SimpleEventBus.BUS();
     // When
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore));
+    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
     // Then
-    assertThat(eventBus.getSubscribers()).containsExactly(new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore)));
+    assertThat(eventBus.getSubscribers()).containsExactly(new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank)));
   }
 
   @Test
@@ -39,11 +43,11 @@ public class SimpleEventBusSubscribeTest {
     // Given
     EventBus eventBus = SimpleEventBus.BUS();
     // When
-    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore));
+    eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank));
     eventBus.subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery());
     // Then
     assertThat(eventBus.getSubscribersOf(AccountCreatedEvent.class)).containsExactlyInAnyOrder(
-            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(eventStore)),
+            new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandler(bank)),
             new EventBusSubscriber(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery())
     );
   }

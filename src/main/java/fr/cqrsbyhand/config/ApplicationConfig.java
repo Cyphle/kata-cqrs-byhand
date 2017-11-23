@@ -8,7 +8,9 @@ import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
+import fr.cqrsbyhand.mocks.MockAccountRepository;
 import fr.cqrsbyhand.mocks.MockEventRepository;
+import fr.cqrsbyhand.query.repositories.Bank;
 import fr.cqrsbyhand.utils.AccountIdGenerator;
 import fr.cqrsbyhand.utils.Clock;
 
@@ -42,6 +44,6 @@ public enum ApplicationConfig {
   }
 
   private void registerEventHandlers() {
-    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(MonoRepoEventStore.STORE()));
+    SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(new MockAccountRepository()));
   }
 }

@@ -1,29 +1,27 @@
 package fr.cqrsbyhand.event.handlers;
 
+import fr.cqrsbyhand.domain.aggregates.Account;
+import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.event.events.Event;
-import fr.cqrsbyhand.event.store.EventStore;
+import fr.cqrsbyhand.query.repositories.Bank;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Map;
 
 @EqualsAndHashCode
 public class AccountCreatedEventHandler implements EventHandler {
-  private EventStore eventStore;
+  private AccountDenormalizer denormalizer;
+  private Bank bank;
 
-  public AccountCreatedEventHandler(EventStore eventStore) {
-    this.eventStore = eventStore;
+  public AccountCreatedEventHandler(Bank bank) {
+    this.bank = bank;
+    denormalizer = new AccountDenormalizer();
   }
 
   @Override
   public void handle(Event event) {
-    List<Event> events = eventStore.getEventsOf(event.getAccountId());
-    /*
-      Save in query database
-      -> get denormalizer
-      -> get events
-      -> update
-      -> save
-     */
-    throw new UnsupportedOperationException();
+    Map<String, Account> account = denormalizer.project(Collections.singletonList(event));
+    bank.createAccount(account.get(event.getAccountId()));
   }
 }
