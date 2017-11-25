@@ -16,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
@@ -42,12 +41,13 @@ public class AccountCreditedEventHandlerForQueryTest {
     Event event = new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "abc", 200, LocalDateTime.of(2017, Month.NOVEMBER, 23, 20, 0));
     doNothing().when(bank).updateAccount(any(AccountView.class));
     given(eventStore.getEventsOf("abc")).willReturn(
-            Collections.singletonList(new AccountCreatedEvent(
-                    EventType.ACCOUNT_CREATION,
-                    "abc",
-                    "My account",
-                    LocalDateTime.of(2017, Month.NOVEMBER, 23, 20, 0)
-            ))
+            Arrays.asList(new AccountCreatedEvent(
+                            EventType.ACCOUNT_CREATION,
+                            "abc",
+                            "My account",
+                            LocalDateTime.of(2017, Month.NOVEMBER, 23, 20, 0)
+                    ),
+                    event)
     );
 
     accountCreditedEventHandler.handle(event);

@@ -25,7 +25,7 @@ public class AccountCreditedEventHandlerForQuery implements EventHandler {
   public void handle(Event event) {
     List<Event> events = eventStore.getEventsOf(event.getAccountId());
     Account account = denormalizer.project(events).get(event.getAccountId());
-    account.credit(event.getAmount());
+//    account.credit(event.getAmount());
     AccountView accountView = AccountView.fromAccountAggregate(account);
     bank.updateAccount(accountView);
   }

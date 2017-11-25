@@ -32,4 +32,9 @@ public class MockAccountRepository implements Bank {
     accounts.remove(account.getName());
     accounts.put(account.getName(), account);
   }
+
+  @Override
+  public void clear() {
+    accounts.clear();
+  }
 }

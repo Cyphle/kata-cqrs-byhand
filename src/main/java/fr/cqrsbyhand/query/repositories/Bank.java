@@ -8,4 +8,6 @@ public interface Bank {
   AccountView findByName(String accountName);
 
   void updateAccount(AccountView account);
+
+  void clear();
 }

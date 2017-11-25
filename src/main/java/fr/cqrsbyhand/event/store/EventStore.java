@@ -13,4 +13,6 @@ public interface EventStore {
   List<Event> getAllEvents();
 
   List<Event> getEventsOf(String accountId);
+
+  void clearEvents();
 }

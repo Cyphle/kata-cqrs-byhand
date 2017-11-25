@@ -29,6 +29,8 @@ public class AccountCreditAcceptanceTest {
   public void setUp() throws Exception {
     ApplicationConfig.CONFIG.initialize();
     commandBus = ApplicationConfig.getCommandBus();
+    ApplicationConfig.getBank().clear();
+    ApplicationConfig.getEventStore().clearEvents();
 
     accountReader = new AccountReader(ApplicationConfig.getBank());
 

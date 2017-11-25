@@ -50,6 +50,7 @@ public class MonoRepoEventStore implements EventStore {
             .collect(Collectors.toList());
   }
 
+  @Override
   public void clearEvents() {
     eventRepository.clearEvents();
   }
