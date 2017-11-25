@@ -3,7 +3,9 @@ package fr.cqrsbyhand.config;
 import fr.cqrsbyhand.command.bus.CommandBus;
 import fr.cqrsbyhand.command.bus.SimpleCommandBus;
 import fr.cqrsbyhand.command.commands.AccountCreationCommand;
+import fr.cqrsbyhand.command.commands.AccountCreditCommand;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
+import fr.cqrsbyhand.command.handlers.AccountCreditCommandHandler;
 import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
@@ -45,6 +47,13 @@ public enum ApplicationConfig {
                     MonoRepoEventStore.STORE(),
                     new AccountDenormalizer(),
                     new AccountIdGenerator()
+            ));
+    SimpleCommandBus.BUS.subscribe(
+            AccountCreditCommand.class,
+            new AccountCreditCommandHandler(
+                    SimpleEventBus.BUS(),
+                    MonoRepoEventStore.STORE(),
+                    new AccountDenormalizer()
             ));
   }
 
