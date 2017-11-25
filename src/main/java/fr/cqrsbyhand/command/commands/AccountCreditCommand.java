@@ -12,4 +12,8 @@ public class AccountCreditCommand implements Command {
   public String getAccountId() {
     return accountId;
   }
+
+  public int getAmountToCredit() {
+    return amountToCredit;
+  }
 }

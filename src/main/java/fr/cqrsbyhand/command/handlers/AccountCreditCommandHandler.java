@@ -5,7 +5,9 @@ import fr.cqrsbyhand.command.commands.Command;
 import fr.cqrsbyhand.domain.aggregates.Account;
 import fr.cqrsbyhand.domain.denormalizers.Denormalizer;
 import fr.cqrsbyhand.event.bus.EventBus;
+import fr.cqrsbyhand.event.events.AccountCreditedEvent;
 import fr.cqrsbyhand.event.events.Event;
+import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.exceptions.AccountCreationError;
 import fr.cqrsbyhand.exceptions.AccountCreditError;
@@ -28,10 +30,7 @@ public class AccountCreditCommandHandler extends CommandHandler {
 
     if (events.isEmpty())
       throw new CommandException(new AccountCreditError("Account already does not exist", "abcuid"));
-    /*
-    - Get account
-    - Update balance (check business rules)
-    - Send event
-     */
+
+    eventBus.apply(new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, ((AccountCreditCommand) command).getAccountId(), ((AccountCreditCommand) command).getAmountToCredit()));
   }
 }

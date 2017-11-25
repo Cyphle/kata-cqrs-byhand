@@ -5,6 +5,7 @@ import fr.cqrsbyhand.domain.aggregates.Account;
 import fr.cqrsbyhand.domain.denormalizers.Denormalizer;
 import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
+import fr.cqrsbyhand.event.events.AccountCreditedEvent;
 import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.exceptions.AccountCreditError;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountCreditCommandHandlerTest {
@@ -54,5 +56,14 @@ public class AccountCreditCommandHandlerTest {
     }
   }
 
-  // Collections.singletonList(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abcuid", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0)))
+  @Test
+  public void should_credit_account() throws Exception {
+    // Given
+    AccountCreditCommand accountCreditCommand = new AccountCreditCommand("abcuid", 200);
+    given(eventStore.getEventsOf(accountCreditCommand.getAccountId())).willReturn(Collections.singletonList(new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abcuid", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0))));
+    // When
+    accountCreditHandler.handle(accountCreditCommand);
+    // Then
+    verify(eventBus).apply(new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "abcuid", 200));
+  }
 }
