@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class MonoRepoEventStore implements EventStore {
   private static EventStore instance;
-  private EventRepository eventRepository;
+  private final EventRepository eventRepository;
 
   private MonoRepoEventStore(EventRepository eventRepository) {
     this.eventRepository = eventRepository;
@@ -50,6 +50,7 @@ public class MonoRepoEventStore implements EventStore {
             .collect(Collectors.toList());
   }
 
+  @Override
   public void clearEvents() {
     eventRepository.clearEvents();
   }

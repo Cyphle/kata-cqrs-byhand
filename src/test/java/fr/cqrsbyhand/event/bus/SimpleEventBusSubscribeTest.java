@@ -17,9 +17,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class SimpleEventBusSubscribeTest {
   @Mock
+  private
   EventStore eventStore;
 
   @Mock
+  private
   Bank bank;
 
   @Before

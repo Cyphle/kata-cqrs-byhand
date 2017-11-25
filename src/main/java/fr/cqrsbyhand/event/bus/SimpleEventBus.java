@@ -3,23 +3,18 @@ package fr.cqrsbyhand.event.bus;
 import fr.cqrsbyhand.event.events.Event;
 import fr.cqrsbyhand.event.handlers.EventHandler;
 import fr.cqrsbyhand.event.store.EventStore;
-import fr.cqrsbyhand.event.store.MonoRepoEventStore;
-import fr.cqrsbyhand.utils.Clock;
 import fr.cqrsbyhand.utils.DateService;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SimpleEventBus implements EventBus {
   private static EventBus instance;
   private final List<EventBusSubscriber> subscribers;
-  private EventStore eventStore;
-  private DateService dateService;
+  private final DateService dateService;
 
-  private SimpleEventBus(EventStore eventStore, DateService dateService) {
-    this.eventStore = eventStore;
+  private SimpleEventBus(DateService dateService) {
     this.dateService = dateService;
     subscribers = new ArrayList<>();
   }
@@ -30,8 +25,8 @@ public class SimpleEventBus implements EventBus {
     return instance;
   }
 
-  public static void initialize(EventStore eventStore, DateService dateService) {
-    instance = new SimpleEventBus(eventStore, dateService);
+  public static void initialize(DateService dateService) {
+    instance = new SimpleEventBus(dateService);
     instance.getSubscribers().clear();
   }
 

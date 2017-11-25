@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class AccountDenormalizerTest {
   private AccountDenormalizer denormalizer;
-  private DateService fakeDateService = new FakeDateService();
 
   @Before
   public void setUp() throws Exception {

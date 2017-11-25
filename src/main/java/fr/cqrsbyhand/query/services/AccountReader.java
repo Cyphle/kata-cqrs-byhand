@@ -4,7 +4,7 @@ import fr.cqrsbyhand.query.models.AccountView;
 import fr.cqrsbyhand.query.repositories.Bank;
 
 public class AccountReader implements AccountQuery {
-  private Bank bank;
+  private final Bank bank;
 
   public AccountReader(Bank bank) {
     this.bank = bank;

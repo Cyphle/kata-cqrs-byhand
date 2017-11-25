@@ -4,7 +4,6 @@ import fr.cqrsbyhand.command.commands.AccountCreationCommand;
 import fr.cqrsbyhand.command.handlers.AccountCreationCommandHandler;
 import fr.cqrsbyhand.config.ApplicationConfig;
 import fr.cqrsbyhand.domain.denormalizers.Denormalizer;
-import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.utils.IdGenerator;
@@ -30,8 +29,10 @@ public class SimpleCommandBusSubscribeTest {
   public void setUp() throws Exception {
     ApplicationConfig.CONFIG.initializeEventBus();
     ApplicationConfig.CONFIG.initializeEventStore();
+    ApplicationConfig.getCommandBus().getSubscribers().clear();
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_subscribe_command_handler_to_bus() throws Exception {
     // Given

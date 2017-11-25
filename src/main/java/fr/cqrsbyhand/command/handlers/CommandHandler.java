@@ -5,10 +5,10 @@ import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.store.EventStore;
 
 public abstract class CommandHandler {
-  protected final EventBus eventBus;
-  protected final EventStore eventStore;
+  final EventBus eventBus;
+  final EventStore eventStore;
 
-  public CommandHandler(EventBus eventBus, EventStore eventStore) {
+  CommandHandler(EventBus eventBus, EventStore eventStore) {
     this.eventBus = eventBus;
     this.eventStore = eventStore;
   }
