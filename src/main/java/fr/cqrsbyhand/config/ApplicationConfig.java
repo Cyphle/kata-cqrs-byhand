@@ -9,8 +9,11 @@ import fr.cqrsbyhand.command.handlers.AccountCreditCommandHandler;
 import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
+import fr.cqrsbyhand.event.events.AccountCreditedEvent;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
 import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandlerForQuery;
+import fr.cqrsbyhand.event.handlers.AccountCreditedEventHandler;
+import fr.cqrsbyhand.event.handlers.AccountCreditedEventHandlerForQuery;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.mocks.MockAccountRepository;
@@ -61,6 +64,9 @@ public enum ApplicationConfig {
     bank = new MockAccountRepository();
     SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandler(MonoRepoEventStore.STORE()));
     SimpleEventBus.BUS().subscribe(AccountCreatedEvent.class, new AccountCreatedEventHandlerForQuery(bank));
+
+    SimpleEventBus.BUS().subscribe(AccountCreditedEvent.class, new AccountCreditedEventHandler(MonoRepoEventStore.STORE()));
+    SimpleEventBus.BUS().subscribe(AccountCreditedEvent.class, new AccountCreditedEventHandlerForQuery(bank, MonoRepoEventStore.STORE()));
   }
 
   public static EventStore getEventStore() {

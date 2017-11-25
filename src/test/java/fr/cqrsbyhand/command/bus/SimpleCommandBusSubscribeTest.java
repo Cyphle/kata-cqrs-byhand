@@ -29,6 +29,7 @@ public class SimpleCommandBusSubscribeTest {
   public void setUp() throws Exception {
     ApplicationConfig.CONFIG.initializeEventBus();
     ApplicationConfig.CONFIG.initializeEventStore();
+    ApplicationConfig.getCommandBus().getSubscribers().clear();
   }
 
   @SuppressWarnings("unchecked")

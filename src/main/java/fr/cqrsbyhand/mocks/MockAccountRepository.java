@@ -5,26 +5,31 @@ import fr.cqrsbyhand.query.repositories.Bank;
 import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @EqualsAndHashCode
 public class MockAccountRepository implements Bank {
-  private final List<AccountView> accounts;
+  private final Map<String, AccountView> accounts;
 
   public MockAccountRepository() {
-    accounts = new ArrayList<>();
+    accounts = new HashMap<>();
   }
 
   @Override
   public void createAccount(AccountView account) {
-    accounts.add(account);
+    accounts.put(account.getName(), account);
   }
 
   @Override
   public AccountView findByName(String accountName) {
-    return accounts.stream()
-            .filter(account -> account.getName().equals(accountName))
-            .findAny()
-            .orElse(new AccountView());
+    return accounts.get(accountName);
+  }
+
+  @Override
+  public void updateAccount(AccountView account) {
+    accounts.remove(account.getName());
+    accounts.put(account.getName(), account);
   }
 }

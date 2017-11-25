@@ -37,7 +37,7 @@ public class AccountCreditAcceptanceTest {
   }
 
   @Test
-  public void should_create_a_new_account() throws Exception {
+  public void should_credit_an_account() throws Exception {
     // Given
     AccountCreditCommand command = new AccountCreditCommand("abcuid", 200);
     // When
