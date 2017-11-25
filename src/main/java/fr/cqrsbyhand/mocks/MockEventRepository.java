@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockEventRepository implements EventRepository {
-  private List<Event> events;
+  private final List<Event> events;
 
   public MockEventRepository() {
     events = new ArrayList<>();

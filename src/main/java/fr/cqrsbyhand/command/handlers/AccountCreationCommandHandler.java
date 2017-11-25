@@ -19,8 +19,8 @@ import java.util.Map;
 
 @EqualsAndHashCode
 public class AccountCreationCommandHandler extends CommandHandler {
-  private Denormalizer<Account> denormalizer;
-  private IdGenerator idGenerator;
+  private final Denormalizer<Account> denormalizer;
+  private final IdGenerator idGenerator;
 
   public AccountCreationCommandHandler(EventBus eventBus, EventStore eventStore, Denormalizer<Account> denormalizer, IdGenerator idGenerator) {
     super(eventBus, eventStore);

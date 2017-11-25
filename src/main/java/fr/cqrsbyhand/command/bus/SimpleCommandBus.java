@@ -9,7 +9,7 @@ import java.util.Map;
 public enum SimpleCommandBus implements CommandBus {
   BUS;
 
-  private Map<Class<? extends Command>, CommandHandler> subscribers;
+  private final Map<Class<? extends Command>, CommandHandler> subscribers;
 
   SimpleCommandBus() {
     this.subscribers = new HashMap<>();

@@ -13,8 +13,8 @@ import java.util.Map;
 
 @EqualsAndHashCode
 public class AccountCreatedEventHandlerForQuery implements EventHandler {
-  private Denormalizer denormalizer;
-  private Bank bank;
+  private final Denormalizer denormalizer;
+  private final Bank bank;
 
   public AccountCreatedEventHandlerForQuery(Bank bank) {
     this.bank = bank;
