@@ -13,6 +13,12 @@ public class AccountDebitedEvent implements Event {
   private final int amount;
   private LocalDateTime eventDate;
 
+  public AccountDebitedEvent(EventType type, String accountId, int amount) {
+    this.type = type;
+    this.accountId = accountId;
+    this.amount = amount;
+  }
+
   public AccountDebitedEvent(EventType type, String accountId, int amount, LocalDateTime eventDate) {
     this.type = type;
     this.accountId = accountId;

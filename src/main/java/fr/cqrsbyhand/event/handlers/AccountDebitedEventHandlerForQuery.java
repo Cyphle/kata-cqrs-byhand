@@ -10,12 +10,12 @@ import fr.cqrsbyhand.query.repositories.Bank;
 
 import java.util.List;
 
-public class AccountCreditedEventHandlerForQuery implements EventHandler {
+public class AccountDebitedEventHandlerForQuery implements EventHandler {
   private final Bank bank;
   private EventStore eventStore;
   private final Denormalizer<Account> denormalizer;
 
-  public AccountCreditedEventHandlerForQuery(Bank bank, EventStore eventStore) {
+  public AccountDebitedEventHandlerForQuery(Bank bank, EventStore eventStore) {
     this.bank = bank;
     this.eventStore = eventStore;
     denormalizer = new AccountDenormalizer();
