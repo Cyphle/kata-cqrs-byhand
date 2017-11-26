@@ -6,6 +6,8 @@ import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.domain.denormalizers.Denormalizer;
 import fr.cqrsbyhand.event.bus.EventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
+import fr.cqrsbyhand.event.events.AccountCreditedEvent;
+import fr.cqrsbyhand.event.events.AccountDebitedEvent;
 import fr.cqrsbyhand.event.events.EventType;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.exceptions.AccountDebitError;
@@ -24,6 +26,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountDebitCommandHandlerTest {
@@ -70,5 +73,19 @@ public class AccountDebitCommandHandlerTest {
       // Then
       assertThat((AccountDebitError) ex.getError()).isEqualTo(new AccountDebitError("You cannot have negative balance", "My super account"));
     }
+  }
+
+  @Test
+  public void should_debit_account() throws Exception {
+    // Given
+    AccountDebitCommand accountDebitCommand = new AccountDebitCommand("abcuid", 100);
+    given(eventStore.getEventsOf(accountDebitCommand.getAccountId())).willReturn(Arrays.asList(
+            new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "abcuid", "My super account", LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0)),
+            new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "abcuid", 200, LocalDateTime.of(2017, Month.NOVEMBER, 19, 15, 0))
+    ));
+    // When
+    accountDebitHandler.handle(accountDebitCommand);
+    // Then
+    verify(eventBus).apply(new AccountDebitedEvent(EventType.ACCOUNT_DEBIT, "abcuid", 100));
   }
 }
