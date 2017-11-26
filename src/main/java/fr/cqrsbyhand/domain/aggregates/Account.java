@@ -1,5 +1,7 @@
 package fr.cqrsbyhand.domain.aggregates;
 
+import fr.cqrsbyhand.exceptions.AccountDebitError;
+import fr.cqrsbyhand.exceptions.CommandException;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -26,7 +28,9 @@ public class Account {
     return new Account(accountId, creationDate, lastUpdateDate, accountName, balance += amountToCredit);
   }
 
-  public Account debit(int amountToDebit) {
+  public Account debit(int amountToDebit) throws CommandException {
+    if (balance - amountToDebit < 0)
+      throw new CommandException(new AccountDebitError("You cannot have negative balance", accountName));
     return new Account(accountId, creationDate, lastUpdateDate, accountName, balance -= amountToDebit);
   }
 

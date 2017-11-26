@@ -26,5 +26,8 @@ public class AccountDebitCommandHandler extends CommandHandler {
 
     if (events.isEmpty())
       throw new CommandException(new AccountDebitError("Account already does not exist", ((AccountDebitCommand) command).getAccountId()));
+
+    Account account = denormalizer.project(events).get(((AccountDebitCommand) command).getAccountId());
+    account.debit(((AccountDebitCommand) command).getAmountToDebit());
   }
 }

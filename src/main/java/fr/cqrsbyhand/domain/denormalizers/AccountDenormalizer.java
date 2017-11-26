@@ -4,6 +4,7 @@ import fr.cqrsbyhand.domain.aggregates.Account;
 import fr.cqrsbyhand.event.events.AccountCreditedEvent;
 import fr.cqrsbyhand.event.events.AccountDebitedEvent;
 import fr.cqrsbyhand.event.events.Event;
+import fr.cqrsbyhand.exceptions.CommandException;
 import lombok.EqualsAndHashCode;
 
 import java.util.*;
@@ -38,7 +39,13 @@ public class AccountDenormalizer implements Denormalizer<Account> {
 
   private enum Transaction {
     CREDIT(AccountCreditedEvent.class, Account::credit),
-    DEBIT(AccountDebitedEvent.class, Account::debit);
+    DEBIT(AccountDebitedEvent.class, (account, amountToDebit) -> {
+      try {
+        return account.debit(amountToDebit);
+      } catch (CommandException e) {
+        return account;
+      }
+    });
 
     final Class EventClass;
     final BiFunction<Account, Integer, Account> operation;

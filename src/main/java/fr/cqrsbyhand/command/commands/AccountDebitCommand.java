@@ -12,4 +12,8 @@ public class AccountDebitCommand implements Command {
   public String getAccountId() {
     return accountId;
   }
+
+  public int getAmountToDebit() {
+    return amountToDebit;
+  }
 }
