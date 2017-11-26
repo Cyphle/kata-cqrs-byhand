@@ -12,10 +12,8 @@ import fr.cqrsbyhand.domain.denormalizers.AccountDenormalizer;
 import fr.cqrsbyhand.event.bus.SimpleEventBus;
 import fr.cqrsbyhand.event.events.AccountCreatedEvent;
 import fr.cqrsbyhand.event.events.AccountCreditedEvent;
-import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandler;
-import fr.cqrsbyhand.event.handlers.AccountCreatedEventHandlerForQuery;
-import fr.cqrsbyhand.event.handlers.AccountCreditedEventHandler;
-import fr.cqrsbyhand.event.handlers.AccountCreditedEventHandlerForQuery;
+import fr.cqrsbyhand.event.events.AccountDebitedEvent;
+import fr.cqrsbyhand.event.handlers.*;
 import fr.cqrsbyhand.event.store.EventStore;
 import fr.cqrsbyhand.event.store.MonoRepoEventStore;
 import fr.cqrsbyhand.mocks.MockAccountRepository;
@@ -76,6 +74,9 @@ public enum ApplicationConfig {
 
     SimpleEventBus.BUS().subscribe(AccountCreditedEvent.class, new AccountCreditedEventHandler(MonoRepoEventStore.STORE()));
     SimpleEventBus.BUS().subscribe(AccountCreditedEvent.class, new AccountCreditedEventHandlerForQuery(bank, MonoRepoEventStore.STORE()));
+
+    SimpleEventBus.BUS().subscribe(AccountDebitedEvent.class, new AccountDebitedEventHandler(MonoRepoEventStore.STORE()));
+    SimpleEventBus.BUS().subscribe(AccountDebitedEvent.class, new AccountDebitedEventHandlerForQuery(bank, MonoRepoEventStore.STORE()));
   }
 
   public static EventStore getEventStore() {
