@@ -51,7 +51,7 @@ public class AccountDenormalizerTest {
   public void should_be_able_to_project_account_last_state() throws Exception {
     List<Event> events = Arrays.asList(
             new AccountCreatedEvent(EventType.ACCOUNT_CREATION, "a", "My account", LocalDateTime.of(2017, Month.NOVEMBER, 15, 10, 12)),
-            new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "a", 100, LocalDateTime.of(2017, Month.NOVEMBER, 15, 11, 20)),
+            new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "a", 200, LocalDateTime.of(2017, Month.NOVEMBER, 15, 11, 20)),
             new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, "a", 300, LocalDateTime.of(2017, Month.NOVEMBER, 16, 12, 20)),
             new AccountDebitedEvent(EventType.ACCOUNT_DEBIT, "a", 50, LocalDateTime.of(2017, Month.NOVEMBER, 17, 15, 18)),
             new AccountDebitedEvent(EventType.ACCOUNT_DEBIT, "a", 150, LocalDateTime.of(2017, Month.NOVEMBER, 16, 8, 18)),
@@ -66,7 +66,7 @@ public class AccountDenormalizerTest {
             LocalDateTime.of(2017, Month.NOVEMBER, 15, 10, 12),
             LocalDateTime.of(2017, Month.NOVEMBER, 17, 15, 18),
             "My account",
-            500
+            600
     ));
   }
 }

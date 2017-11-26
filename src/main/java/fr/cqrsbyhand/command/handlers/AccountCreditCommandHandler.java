@@ -29,7 +29,7 @@ public class AccountCreditCommandHandler extends CommandHandler {
     List<Event> events = eventStore.getEventsOf(((AccountCreditCommand) command).getAccountId());
 
     if (events.isEmpty())
-      throw new CommandException(new AccountCreditError("Account already does not exist", "abcuid"));
+      throw new CommandException(new AccountCreditError("Account already does not exist", ((AccountCreditCommand) command).getAccountId()));
 
     eventBus.apply(new AccountCreditedEvent(EventType.ACCOUNT_CREDIT, ((AccountCreditCommand) command).getAccountId(), ((AccountCreditCommand) command).getAmountToCredit()));
   }
